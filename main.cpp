@@ -1,10 +1,12 @@
 #include <iostream>
 #include <string>
-#include "include/file_IO.h"
+#include <vector>
 #include "include/particles.h"
 #include "include/timing.h"
-#include "morton_tree/build_tree.h"
-#include "expansion/node_to_expansion.hpp"
+#include "include/p2p.h"
+#include "include/e2p.h"
+#include "include/p2e.h"
+
 using std::cout; using std::endl;
 using std::vector;
 void generateRandomData(Particles& ,Particles&);
@@ -27,14 +29,14 @@ int main(int argc, char** argv) {
   
   //reset_and_start_timer();
   // compute expansion with gcc only
-  vector<int> cr(ORDER+1,0),ci(ORDER+1,0);
-  p2e_gcc<ORDER>(particles,cr,ci);
+  vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
+  p2e_gcc<ORDER>(particles,cr.data(),ci.data());
   e2p_gcc<ORDER>(targets,cr,ci);
   Print(targets,5);
 
   
   //compute target locations with direct evaluations
-  for(int i=0;i<targets.N;i++) targets.w[i]=p2p(particles,targets.x[i],targets.y[i]);
+  for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
    Print(targets,5);
  
 }
@@ -48,8 +50,8 @@ void generateRandomData(Particles& p,Particles& t){
     p.y[i]=ran(mt);
     p.w[i]=ran(mt);
   }
-  const doble x0=4;
-  const doble y0=1;
+  const double x0=4;
+  const double y0=1;
    for(int i=0;i<t.N;i++){
      const double theta= ran(mt)*M_PI;
      t.x[i]=x0+std::cos(theta);
