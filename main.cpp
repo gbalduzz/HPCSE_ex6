@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
   //reset_and_start_timer();
   // compute expansion with gcc only
   vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
-  p2e_gcc<ORDER>(particles,cr.data(),ci.data());
+  p2e_gcc<ORDER>(particles,cr,ci);
   e2p_gcc<ORDER>(targets,cr,ci);
   Print(targets,5);
 

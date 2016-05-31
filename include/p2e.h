@@ -3,8 +3,9 @@
 //
 #pragma once
 #include "particles.h"
-#include <complex>
+#include <vector>
 #include <cmath>
+using vct = std::vector<double>;
 
 template<int k,int K>
 struct sum_kth_coeff{
@@ -28,13 +29,14 @@ struct sum_kth_coeff<k,k>{
 };
 
 template <int k>
-void p2e_gcc(const Particles& p,double* c_re,double* c_im){ //c_re and c_im must have k+1 reserved spaces
+void p2e_gcc(const Particles& p,vct& c_re,vct& c_im){
+  //c_re and c_im must have k+1 reserved spaces
        for(int i=0;i<p.N;i++){
          const double x=p.x[i];
          const double y=p.y[i];
          const double w=p.w[i];
          c_re[0]+=w;
-         sum_kth_coeff<1,k>::execute(c_re,c_im,x,y,w,x,y);
+         sum_kth_coeff<1,k>::execute(c_re.data(),c_im.data(),x,y,w,x,y);
     }
     //divide by coeff order
 #pragma omp simd
