@@ -1,14 +1,13 @@
 include(src/unroll.m4)
 
 export void p2e(const uniform double xv[],const uniform double yv[],const uniform double wv[],
-	       const uniform double xcom, const uniform double ycom,
 	       uniform double cr_out[],uniform double ci_out[],const uniform int N){
   double cr[eval(ORDER+1)];
   double ci[eval(ORDER+1)];
  
   foreach(i=0 ... N){
-    const double zr_1=xv[i]-xcom;
-    const double zi_1=yv[i]-ycom;
+    const double zr_1=xv[i];
+    const double zi_1=yv[i];
     const double w = wv[i];
 
     cr[0]+=w;

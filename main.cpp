@@ -29,15 +29,24 @@ int main(int argc, char** argv) {
   
   //reset_and_start_timer();
   // compute expansion with gcc only
-  vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
-  p2e_gcc<ORDER>(particles,cr,ci);
-  e2p_gcc<ORDER>(targets,cr,ci);
-  Print(targets,5);
-
+  {
+    cout<<"gcc:\n\n";
+    vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
+    p2e_gcc<ORDER>(particles,cr,ci);
+    e2p_gcc<ORDER>(targets,cr,ci);
+    Print(targets,3);
+  }
+  {
+    cout<<"m4+ispc:\n\n";
+    vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
+    p2e(particles,cr,ci);
+    e2p(targets,cr,ci);
+    Print(targets,3);
+  }
   
-  //compute target locations with direct evaluations
+  /*//compute target locations with direct evaluations
   for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
-   Print(targets,5);
+  Print(targets,5);*/
  
 }
 

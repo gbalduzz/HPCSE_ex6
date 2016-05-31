@@ -3,9 +3,14 @@
 //
 #pragma once
 #include "particles.h"
+#include "p2e.ispc.h"
 #include <vector>
 #include <cmath>
 using vct = std::vector<double>;
+
+inline void p2e(const Particles& p,vct& cr,vct& ci){
+  ispc::p2e(p.x,p.y,p.w,cr.data(),ci.data(),p.N);
+}
 
 template<int k,int K>
 struct sum_kth_coeff{

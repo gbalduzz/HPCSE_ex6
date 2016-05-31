@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "particles.h"
+#include "e2p.ispc.h"
 using std::vector;
 
 template<int K>
@@ -22,4 +23,8 @@ double e2p_gcc(const double z_re,const double z_im,const double* c_re,const doub
 template<int ord>
 void e2p_gcc(Particles& t,const vector<double>& cr,const vector<double>& ci){
   for(int i=0; i<t.N;i++) t.w[i]= e2p_gcc<ord>(t.x[i],t.y[i],cr.data(),ci.data());  
+}
+
+inline void e2p(Particles& t,const vector<double>& cr,const vector<double>& ci){
+  for(int i=0;i<t.N;i++) t.w[i]= ispc::e2p(t.x[i],t.y[i],cr.data(),ci.data());
 }
