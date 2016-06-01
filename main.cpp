@@ -9,7 +9,10 @@
 
 using std::cout; using std::endl;
 using std::vector;
+using vd = vector<double>;
+void Print(const vd& ,int );
 void generateRandomData(Particles& ,Particles&);
+
 #define ORDER 8
 
 #define EXECUTE(p2e,e2p)\
@@ -17,6 +20,7 @@ void generateRandomData(Particles& ,Particles&);
 vector<double> cr(ORDER+1,0),ci(ORDER+1,0);	\
 (p2e)(particles,cr,ci);				\
 (e2p)(targets,cr,ci);				\
+cout<<"cr: "; Print(cr,3);			\
 Print(targets,3);				\
 }
 
@@ -65,4 +69,10 @@ void generateRandomData(Particles& p,Particles& t){
      t.y[i]=y0+std::sin(theta);
      t.w[i]=0;
   }
+}
+
+void Print(const vd& v,int n){
+  n= std::min((int)v.size(),n);
+  for(int i=0;i<n;i++)  cout<<v[i]<<"\t";
+  cout<<endl;
 }
