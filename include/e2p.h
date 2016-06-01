@@ -26,5 +26,5 @@ void e2p_gcc(Particles& t,const vector<double>& cr,const vector<double>& ci){
 }
 
 inline void e2p(Particles& t,const vector<double>& cr,const vector<double>& ci){
-  for(int i=0;i<t.N;i++) t.w[i]= ispc::e2p(t.x[i],t.y[i],cr.data(),ci.data());
+  ispc::e2p(t.x,t.y,cr.data(),ci.data(),t.w,t.N);
 }

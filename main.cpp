@@ -13,18 +13,20 @@ using vd = vector<double>;
 void Print(const vd& ,int n=-1);
 void generateRandomData(Particles& ,Particles&);
 
-#define ORDER 4
+#define ORDER 8
 
 #define EXECUTE(p2e,e2p)\
   {						\
 vector<double> cr(ORDER+1,0),ci(ORDER+1,0);	\
 reset_and_start_timer();			\
 (p2e)(particles,cr,ci);				\
+double t1 = get_elapsed_mcycles();		\
 (e2p)(targets,cr,ci);				\
+double t2 = get_elapsed_mcycles();		\
+cout<<"P2e milion cycles:  "<<t1<<endl;	\
+cout<<"E2p milion cycles:  "<<t2-t1<<endl;	\
 Print(targets,3);				\
-double dt = get_elapsed_mcycles();		\
-cout<<"Elapsed milion cycles:  "<<dt<<endl;     \
-}
+  }
 
 int main(int argc, char** argv) {
   constexpr int exp_order = 8;
@@ -39,7 +41,7 @@ int main(int argc, char** argv) {
  
   cout<<"N# of particles: "<<particles.N<<endl;
   cout<<"N# of targets: "<<targets.N<<endl;
-  
+
   
   // compute expansion with gcc only
     cout<<"\ngcc:\n";
