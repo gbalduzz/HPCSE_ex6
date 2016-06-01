@@ -28,8 +28,8 @@ template<int k>
 struct sum_kth_coeff<k,k>{
     inline static void execute (double* c_re,double* c_im,
                                 const double x,const double y,const double w,const double z_re,const double z_im){
-        c_re[k]-=w*(z_re*x-z_im*y);
-        c_im[k]-=w*(z_re*y+z_im*x);
+        c_re[k]-=w*z_re;
+        c_im[k]-=w*z_im;
     }//end recursion
 };
 

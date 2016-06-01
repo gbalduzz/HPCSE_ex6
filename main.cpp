@@ -13,7 +13,7 @@ using vd = vector<double>;
 void Print(const vd& ,int n=-1);
 void generateRandomData(Particles& ,Particles&);
 
-#define ORDER 8
+#define ORDER 4
 
 #define EXECUTE(p2e,e2p)\
   {						\
