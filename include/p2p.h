@@ -11,7 +11,7 @@ inline double p2p(const Particles& p, const double x, const double y){
 }
 
 
-double p2p_gcc(const Particles& p, const double x, const double y){
+double p2p_cxx(const Particles& p, const double x, const double y){
   double res=0;
   for(int i=0;i<p.N;i++) res+=p.w[i]*std::log(diffMod(x,p.x[i],y,p.y[i]));
   return res/2.;

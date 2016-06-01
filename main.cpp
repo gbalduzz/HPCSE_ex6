@@ -30,8 +30,8 @@ Print(targets,3);				\
 
 int main(int argc, char** argv) {
   constexpr int exp_order = 8;
-  int Np=1e3;
-  int Nt=1e2;
+  int Np=1e6;
+  int Nt=1e6;
   if(argc==3){
     Np=atoi(argv[1]);
     Nt=atoi(argv[2]);
@@ -43,15 +43,15 @@ int main(int argc, char** argv) {
   cout<<"N# of targets: "<<targets.N<<endl;
 
   
-  // compute expansion with gcc only
-    cout<<"\ngcc:\n";
-    EXECUTE(p2e_gcc<ORDER>,e2p_gcc<ORDER>)
+  // compute expansion with c++ only
+    cout<<"\nc++ only:\n";
+    EXECUTE(p2e_cxx<ORDER>,e2p_cxx<ORDER>)
   
     cout<<"\nm4+ispc:\n";
     EXECUTE(p2e,e2p)
   
   //compute target locations with direct evaluations
-  //for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
+  //for(int i=0;i<targets.N;i++) targets.w[i]=p2p_cxx(particles,targets.x[i],targets.y[i]);
   //Print(targets,5);
  
 }

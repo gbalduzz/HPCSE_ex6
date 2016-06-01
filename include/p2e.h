@@ -34,7 +34,7 @@ struct sum_kth_coeff<k,k>{
 };
 
 template <int k>
-void p2e_gcc(const Particles& p,vct& c_re,vct& c_im){
+void p2e_cxx(const Particles& p,vct& c_re,vct& c_im){
   //c_re and c_im must have k+1 reserved spaces
        for(int i=0;i<p.N;i++){
          const double x=p.x[i];
