@@ -10,7 +10,7 @@
 using std::cout; using std::endl;
 using std::vector;
 using vd = vector<double>;
-void Print(const vd& ,int );
+void Print(const vd& ,int n=-1);
 void generateRandomData(Particles& ,Particles&);
 
 #define ORDER 8
@@ -20,7 +20,8 @@ void generateRandomData(Particles& ,Particles&);
 vector<double> cr(ORDER+1,0),ci(ORDER+1,0);	\
 (p2e)(particles,cr,ci);				\
 (e2p)(targets,cr,ci);				\
-cout<<"cr: "; Print(cr,3);			\
+cout<<"cr: "; Print(cr);			\
+ cout<<"ci: "; Print(ci);			\
 Print(targets,3);				\
 }
 
@@ -40,15 +41,15 @@ int main(int argc, char** argv) {
   
   
   // compute expansion with gcc only
-    cout<<"gcc:\n\n";
+    cout<<"\ngcc:\n";
     EXECUTE(p2e_gcc<ORDER>,e2p_gcc<ORDER>)
   
-    cout<<"m4+ispc:\n\n";
+    cout<<"\nm4+ispc:\n";
     EXECUTE(p2e,e2p)
   
-  /*//compute target locations with direct evaluations
+  //compute target locations with direct evaluations
   for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
-  Print(targets,5);*/
+    Print(targets,5);
  
 }
 
@@ -72,7 +73,7 @@ void generateRandomData(Particles& p,Particles& t){
 }
 
 void Print(const vd& v,int n){
-  n= std::min((int)v.size(),n);
+  n= n<=0 ? v.size() : std::min((int)v.size(),n);
   for(int i=0;i<n;i++)  cout<<v[i]<<"\t";
   cout<<endl;
 }

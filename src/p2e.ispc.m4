@@ -22,7 +22,7 @@ export void p2e(const uniform double xv[],const uniform double yv[],const unifor
      ')
     }	     
     cr_out[0] = reduce_add(cr[0]);
-    LUNROLL(k,2,ORDER,`
+    LUNROLL(k,1,ORDER,`
       cr_out[k] = reduce_add(cr[k])/k;
       ci_out[k] = reduce_add(ci[k])/k;
     ')
