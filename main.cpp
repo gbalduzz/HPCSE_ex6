@@ -12,6 +12,14 @@ using std::vector;
 void generateRandomData(Particles& ,Particles&);
 #define ORDER 8
 
+#define EXECUTE(p2e,e2p)\
+  {						\
+vector<double> cr(ORDER+1,0),ci(ORDER+1,0);	\
+(p2e)(particles,cr,ci);				\
+(e2p)(targets,cr,ci);				\
+Print(targets,3);				\
+}
+
 int main(int argc, char** argv) {
   constexpr int exp_order = 8;
   int Np=1e3;
@@ -20,29 +28,19 @@ int main(int argc, char** argv) {
     Np=atoi(argv[1]);
     Nt=atoi(argv[2]);
   }
-  const int maxnodes= 4*Np/exp_order;
   Particles particles(Np),targets(Nt);
   generateRandomData(particles,targets);
  
   cout<<"N# of particles: "<<particles.N<<endl;
   cout<<"N# of targets: "<<targets.N<<endl;
   
-  //reset_and_start_timer();
+  
   // compute expansion with gcc only
-  {
     cout<<"gcc:\n\n";
-    vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
-    p2e_gcc<ORDER>(particles,cr,ci);
-    e2p_gcc<ORDER>(targets,cr,ci);
-    Print(targets,3);
-  }
-  {
+    EXECUTE(p2e_gcc<ORDER>,e2p_gcc<ORDER>)
+  
     cout<<"m4+ispc:\n\n";
-    vector<double> cr(ORDER+1,0),ci(ORDER+1,0);
-    p2e(particles,cr,ci);
-    e2p(targets,cr,ci);
-    Print(targets,3);
-  }
+    EXECUTE(p2e,e2p)
   
   /*//compute target locations with direct evaluations
   for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
