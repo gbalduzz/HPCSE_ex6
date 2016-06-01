@@ -18,11 +18,12 @@ void generateRandomData(Particles& ,Particles&);
 #define EXECUTE(p2e,e2p)\
   {						\
 vector<double> cr(ORDER+1,0),ci(ORDER+1,0);	\
+reset_and_start_timer();			\
 (p2e)(particles,cr,ci);				\
 (e2p)(targets,cr,ci);				\
-cout<<"cr: "; Print(cr);			\
- cout<<"ci: "; Print(ci);			\
 Print(targets,3);				\
+double dt = get_elapsed_mcycles();		\
+cout<<"Elapsed milion cycles:  "<<dt<<endl;     \
 }
 
 int main(int argc, char** argv) {
@@ -48,8 +49,8 @@ int main(int argc, char** argv) {
     EXECUTE(p2e,e2p)
   
   //compute target locations with direct evaluations
-  for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
-    Print(targets,5);
+  //for(int i=0;i<targets.N;i++) targets.w[i]=p2p_gcc(particles,targets.x[i],targets.y[i]);
+  //Print(targets,5);
  
 }
 
