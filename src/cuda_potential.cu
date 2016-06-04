@@ -1,5 +1,6 @@
-#include "cuda_potential.hpp"
-#include "cuda_vector.hpp"
+#include <cmath>
+#include "../include/cuda_potential.hpp"
+#include "../include/cuda_vector.hpp"
 constexpr int threadsPerBlock = 128;
 
 __global__ void p2e(double* x,double* y, double* w,double* cr,double* ci, const int N,const int order){
@@ -42,7 +43,7 @@ __global__  e2p(const double* xv,const double* yv, double* rv,
     double zr = 1, zi = 0;
     const double x = xv[i];
     const double y = yv[i];
-#pragma unroll(4)
+//#pragma unroll(4)
     for (int k = 1; k < order + 1; k++) {
       const double temp = zr * zk_re - zi * zk_im;
       zi = zr * zk_im + zi * zk_re;
@@ -62,7 +63,7 @@ void cudaPotential(const Particles& p, Particles& t, const int order){
   CudaVector<double> cr(order),ci(order);
 
   p2e<<<Np/threadsPerBlock,threadsPerBlock>>>(p.x,p.w,p.w,cr,ci,Np,order);
-  divide<<<1,order>>>(cr,ci,order);
+  divide<<<1,order+1>>>(cr,ci,order);
   e2p<<<Np/threadsPerBlock,threadsPerBlock>>>(t.x,t.y,t.w,cr,ci,Nt,order);
 
   t.w = dtw;
