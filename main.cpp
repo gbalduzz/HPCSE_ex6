@@ -6,6 +6,7 @@
 #include "include/p2p.h"
 #include "include/e2p.h"
 #include "include/p2e.h"
+#include "cuda_potential.hpp"
 
 using std::cout; using std::endl;
 using std::vector;
@@ -49,6 +50,10 @@ int main(int argc, char** argv) {
   
     cout<<"\nm4+ispc:\n";
     EXECUTE(p2e,e2p)
+
+  cout<<"\nCUDA:\n";
+  cudaPotential(particles,targets,exp_order);
+  Print(targets,3);
   
   //compute target locations with direct evaluations
   //for(int i=0;i<targets.N;i++) targets.w[i]=p2p_cxx(particles,targets.x[i],targets.y[i]);

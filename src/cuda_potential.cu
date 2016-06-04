@@ -1,4 +1,4 @@
-#pragma once
+#include "cuda_potential.hpp"
 #include "cuda_vector.hpp"
 constexpr int threadsPerBlock = 128;
 
@@ -24,16 +24,47 @@ __global__ void p2e(double* x,double* y, double* w,double* cr,double* ci, const 
   }
 }
 
+__global__ divide(double* cr,double* ci, const int order){
+  //call with one block
+  const int i = threadIdx.x;
+  if(i>1 && i<=order){
+    ci[i] /= i;
+    cr[i] /= i;
+  }
+}
+
+__global__  e2p(const double* xv,const double* yv, double* rv,
+                const double* cr,const double* ci, const int N, const int order){
+  const int i=blockIdx.x*blockDim.x+threadIdx.x;
+  if(i<N) {
+    //c_re[0]=Q
+    double result = c_re[0] * 0.5 * std::log(zr * zr + zi * zi);
+    double zr = 1, zi = 0;
+    const double x = xv[i];
+    const double y = yv[i];
+#pragma unroll(4)
+    for (int k = 1; k < order + 1; k++) {
+      const double temp = zr * zk_re - zi * zk_im;
+      zi = zr * zk_im + zi * zk_re;
+      zr = temp;
+      //result += real(a[k]/z**k)
+      result += (cr[k] * zr + ci[k] * zi) / (zr * zr + zi * zi);
+    }
+    rv[i] = result;
+  }
+}
+
+
 void cudaPotential(const Particles& p, Particles& t, const int order){
   const int Np= p.N;
   const int Nt= t.N;
   CudaVector<double> dpx(Np,p.x),dpy(Np,p.y),dpw(Np,p.w),dtx(Nt,t.x),dty(Nt,t.y),dtw(Nt);
   CudaVector<double> cr(order),ci(order);
-//do a bunch of stuff
-  //p2e
+
   p2e<<<Np/threadsPerBlock,threadsPerBlock>>>(p.x,p.w,p.w,cr,ci,Np,order);
-  // for(int i=2;i<k+1;i++) {c_re[i]/=i;c_im[i]/=i;}
-  //e2p
+  divide<<<1,order>>>(cr,ci,order);
+  e2p<<<Np/threadsPerBlock,threadsPerBlock>>>(t.x,t.y,t.w,cr,ci,Nt,order);
+
   t.w = dtw;
 }
 
