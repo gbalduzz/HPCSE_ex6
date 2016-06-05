@@ -24,7 +24,7 @@ void CudaVector<T>::operator = (const T* p){
 
 template<class T>
 CudaVector<T>::CudaVector(int n, const T *p): size(n* sizeof(T){
-  cudaMalloc((**void)&dp,n);
+  cudaMalloc(static_cast<void**>(&dp),n);
   *this = p;
 }
 
