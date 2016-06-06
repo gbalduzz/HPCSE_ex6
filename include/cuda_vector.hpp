@@ -4,7 +4,7 @@
 template<class T>
 class CudaVector{
 public:
-  CudaVector(int n):size(n* sizeof(T)){cudaMalloc((**void)&dp,n);}
+  CudaVector(int n);
   CudaVector(int n,const T* p);
   ~CudaVector(){cudaFree(dp);}
   operator T*(){return dp;}
@@ -18,13 +18,19 @@ private:
 };
 
 template<class T>
-void CudaVector<T>::operator = (const T* p){
-  cudaMemcpy(cv.dp,p,cv.size,cudaMemcpyHostToDevice);
+CudaVector<T>::CudaVector(int n):
+  size(n* sizeof(T)){
+  cudaMalloc((void**)(&dp),size);
 }
 
 template<class T>
-CudaVector<T>::CudaVector(int n, const T *p): size(n* sizeof(T){
-  cudaMalloc(static_cast<void**>(&dp),n);
+void CudaVector<T>::operator = (const T* p){
+  cudaMemcpy(dp,p,size,cudaMemcpyHostToDevice);
+}
+
+template<class T>
+CudaVector<T>::CudaVector(int n, const T *p): 
+  CudaVector(n){
   *this = p;
 }
 
