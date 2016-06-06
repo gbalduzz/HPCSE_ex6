@@ -19,3 +19,4 @@ struct Particles{
   friend void swap(Particles& a,Particles& b);
 };
 
+void Print(const Particles& p,int n=0);

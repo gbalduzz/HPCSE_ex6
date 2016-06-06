@@ -18,12 +18,6 @@ Particles::~Particles()
   }
 }
 
-Particles::Particles(double* x0,double* y0,double* w0,const int N0)
-
-Particles Particles::subEnsamble(int i0, int l) const{
-  assert(i0+l <= N);
-  return Particles(x+i0,y+i0,w+i0,l);
-}
 
 void Particles::resize(int N0) {
   N=N0;
@@ -50,7 +44,7 @@ void swap(Particles& a,Particles& b){
 
 #include<iostream>
 using std::cout; using std::endl;
-void Print(const Particles& p,int n=0){
+void Print(const Particles& p,int n){
   n= n? std::min(n,p.N) : p.N;
   cout<<"x\ty\tw\n";
   for(int i=0;i<n;i++) cout<<p.x[i]<<"\t"<<p.y[i]<<"\t"<<p.w[i]<<endl;

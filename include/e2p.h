@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <cmath>
 #include "particles.h"
 #include "e2p.ispc.h"
 using std::vector;

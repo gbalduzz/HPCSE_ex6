@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "include/particles.h"
-#include "include/timing.h"
-#include "include/p2p.h"
-#include "include/e2p.h"
-#include "include/p2e.h"
+#include "particles.h"
+#include "timing.h"
+#include "p2p.h"
+#include "e2p.h"
+#include "p2e.h"
 #include "cuda_potential.hpp"
 
 using std::cout; using std::endl;

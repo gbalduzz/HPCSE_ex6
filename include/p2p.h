@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include "p2p.ispc.h"
 inline double diffMod(double x1,double x2,double y1,double y2){
   const double dx=x1-x2;
