@@ -8,7 +8,7 @@ function(create_ispc_library SOURCES)
   message("Adding " ${length} " files to ispc library")
   
   set(ISPC_COMPILER ispc CACHE STRING "ispc compiler")
-  set(ISPCFLAGS -O2 --cpu=corei7-avx CACHE STRING "ispc compiler flags")
+  set(ISPCFLAGS -O2  CACHE STRING "ispc compiler flags")
   set(OBJ_LOCATION ${PROJECT_BINARY_DIR}/ispc/obj)
   set(INC_LOCATION ${PROJECT_BINARY_DIR}/ispc/include)
   file(MAKE_DIRECTORY ${OBJ_LOCATION})

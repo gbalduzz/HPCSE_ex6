@@ -3,16 +3,16 @@ project(ex6)
 
 #cuda part
 find_package(CUDA)
-#set(CUDA_NVCC_FLAGS "-arc=compute_50")
-set(CUDA_PROPAGATE_HOST_FLAGS OFF) ##
-set(CUDA_VERBOSE_BUILD ON) ###
+set(CUDA_PROPAGATE_HOST_FLAGS OFF) 
+#set(CUDA_VERBOSE_BUILD ON) ###
+set(CUDA_NVCC_FLAGS -std=c++11)
 cuda_include_directories(${PROJECT_SOURCE_DIR}/include)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -Wall -DDEBUG")
 set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O4 -fstrict-aliasing -ffast-math -mtune=native -march=native -funroll-loops ")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=3 -std=c++14  -Wstrict-aliasing=2 -fopenmp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=3 -std=c++11  -Wstrict-aliasing=2 -fopenmp")
 
 #compile ispc files
 include(ispc.cmake)
