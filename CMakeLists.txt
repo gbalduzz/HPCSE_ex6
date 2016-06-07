@@ -18,10 +18,16 @@ find_package(CUDA)
 set(CUDA_PROPAGATE_HOST_FLAGS OFF) 
 #set(CUDA_VERBOSE_BUILD ON) ###
 set(CUDA_NVCC_FLAGS -std=c++11)
-cuda_include_directories(${PROJECT_SOURCE_DIR}/include ${M4DIR})
+cuda_include_directories(
+  ${PROJECT_SOURCE_DIR}/include 
+  ${M4DIR} 
+  ${PROJECT_BINARY_DIR}/ispc/include
+  )
 m4generate(src/cuda_kernels.cuh.m4)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
+target_link_libraries(cudaLib ispc)
+
 
 add_executable(ex6 main.cpp src/particles.cpp)
 target_include_directories(ex6 PRIVATE ${PROJECT_SOURCE_DIR}/include)
