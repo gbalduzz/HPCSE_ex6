@@ -1,25 +1,5 @@
 include(src/unroll.m4)
 
-__global__ void p2e(double* xv,double* yv, double* wv,double* cr,double* ci, const int N){
-  //cr and ci must have order+1 reserved spaces
-  const int i=blockIdx.x*blockDim.x+threadIdx.x;
-  if(i<N){
-      const double w=wv[i];
-      cr[0]+=w;
-      const double zr_1=xv[i];
-      const double zi_1=yv[i];
-      cr[1] -= w*zr_1;
-      ci[1] -= w*zi_1;
-      LUNROLL(k,2,eval(ORDER),`
-      //loop iteration
-      const double TMP(zr,k) = TMP(zr,eval(k-1))*zr_1 - TMP(zi,eval(k-1))*zi_1;
-      const double TMP(zi,k) = TMP(zr,eval(k-1))*zi_1 + TMP(zi,eval(k-1))*zr_1;
-      cr[k] -= w*TMP(zr,k);
-      ci[k] -= w*TMP(zi,k);
-      ')
-  }
-}
-
 __global__  void e2p(const double* xv,const double* yv, double* rv,
                 const double* cr,const double* ci, const int N){
   const int i=blockIdx.x*blockDim.x+threadIdx.x;
