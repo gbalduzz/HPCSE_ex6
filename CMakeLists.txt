@@ -19,7 +19,7 @@ set(CUDA_PROPAGATE_HOST_FLAGS OFF)
 #set(CUDA_VERBOSE_BUILD ON) ###
 set(CUDA_NVCC_FLAGS -std=c++11)
 cuda_include_directories(${PROJECT_SOURCE_DIR}/include ${M4DIR})
-m4generate(cuda_kernels.cuh.m4)
+m4generate(src/cuda_kernels.cuh.m4)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
 
