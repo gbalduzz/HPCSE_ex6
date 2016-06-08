@@ -1,5 +1,6 @@
 #pragma once
-#include<cuda.h>
+#include <cuda.h>
+#include <new>
 
 template<class T>
 class CudaVector{
@@ -20,7 +21,8 @@ private:
 template<class T>
 CudaVector<T>::CudaVector(int n):
   size(n* sizeof(T)){
-  cudaMalloc((void**)(&dp),size);
+  cudaError_t err = cudaMalloc((void**)(&dp),size);
+  if(err != cudaSuccess) throw(std::bad_alloc());
 }
 
 template<class T>

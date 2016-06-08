@@ -14,8 +14,6 @@ constexpr int threadsPerBlock = 128;
 void cudaPotential(const Particles& p, Particles& t, const int order){
   const int Np= p.N;
   const int Nt= t.N;
-  //assure no influence forom previous computation
-  std::fill_n(t.w,Nt,0);
   cudaEvent_t start, stop;
   cudaEventCreate(&start);
   cudaEventCreate(&stop);  
@@ -29,7 +27,7 @@ void cudaPotential(const Particles& p, Particles& t, const int order){
   CudaVector<double> cr(order+1,crd.data()),ci(order+1,cid.data());
 //time e2p
   cudaEventRecord(start);
-  e2p<<<Np/threadsPerBlock,threadsPerBlock>>>(t.x,t.y,t.w,cr,ci,Nt);
+  e2p<<<Np/threadsPerBlock,threadsPerBlock>>>(dtx,dty,dtw,cr,ci,Nt);
   cudaEventRecord(stop);
   dtw.copyTo(t.w);
   cudaEventSynchronize(stop);
