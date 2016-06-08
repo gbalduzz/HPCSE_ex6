@@ -19,13 +19,14 @@ void cudaPotential(const Particles& p, Particles& t, const int order){
   cudaEventCreate(&stop);  
  
   reset_and_start_timer();
-  // start copying while compuing p2e
+  // copy asynchronously while compuing p2e
   CudaVector<double> dtx(Nt,t.x),dty(Nt,t.y);
   CudaVector<double> dtw(Nt);
   std::vector<double> crd(order+1,0),cid(order+1,0);
   p2e(p, crd,cid);
   CudaVector<double> cr(order+1,crd.data()),ci(order+1,cid.data());
 //time e2p
+  //cudaDeviceSynchronize();
   cudaEventRecord(start);
   e2p<<<Np/threadsPerBlock,threadsPerBlock>>>(dtx,dty,dtw,cr,ci,Nt);
   cudaEventRecord(stop);

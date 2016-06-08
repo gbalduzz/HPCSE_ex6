@@ -11,7 +11,7 @@ public:
   operator T*(){return dp;}
   void operator = (const T* );
   void copyTo(T* dest){
-    cudaMemcpy(dest,dp,size,cudaMemcpyDeviceToHost);
+    cudaMemcpyAsync(dest,dp,size,cudaMemcpyDeviceToHost);
   } 
 private:
   T* dp=NULL;
