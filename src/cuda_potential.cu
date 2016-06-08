@@ -2,7 +2,7 @@
 #include "cuda_potential.hpp"
 #include "cuda_vector.hpp"
 #include "timing.h"
-#include "cuda_kernels.cuh"
+#include "cuda_kernel.cuh"
 #include "p2e.h"
 #include <iostream>
 using std::cout; using std::endl;
