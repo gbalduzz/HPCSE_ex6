@@ -10,7 +10,7 @@ function(m4generate SOURCE)
   message("m4 output: " ${OUTPUT})
     add_custom_command( 
         OUTPUT ${OUTPUT}
-        COMMAND m4  ${SOURCE} > ${OUTPUT}
+        COMMAND m4 ${M4_FLAGS} ${SOURCE} > ${OUTPUT}
 	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	DEPENDS ${SOURCE}
 	VERBATIM

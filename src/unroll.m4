@@ -25,7 +25,5 @@ define(LUNROLL, `forloop($1, $2, $3,`$4')')
 define(RLUNROLL, `forrloop($1, $2, $3, `$4')')
 define(`TMP', $1_$2)
 
-define(ORDER,8)
-
 divert(0)
 
