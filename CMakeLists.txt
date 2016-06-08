@@ -30,6 +30,8 @@ m4generate(src/cuda_kernel.cuh.m4)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
 target_link_libraries(cudaLib ispc)
+mark_as_advanced(CUDA_rt_LIBRARY CUDA_USE_STATIC_CUDA_RUNTIME
+        CUDA_TOOLKIT_ROOT_DIR CUDA_SDK_ROOT_DIR CMAKE_INSTALL_PREFIX)
 
 
 add_executable(ex6 main.cpp src/particles.cpp)

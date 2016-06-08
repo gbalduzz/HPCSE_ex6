@@ -15,7 +15,7 @@ void cudaPotential(const Particles& p, Particles& t, const int order){
   const int Np= p.N;
   const int Nt= t.N;
   //assure no influence forom previous computation
-  std::fill_N(t.w,Nt,0);
+  std::fill_n(t.w,Nt,0);
   cudaEvent_t start, stop;
   cudaEventCreate(&start);
   cudaEventCreate(&stop);  
