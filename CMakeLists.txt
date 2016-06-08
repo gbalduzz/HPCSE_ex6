@@ -27,9 +27,11 @@ cuda_include_directories(
   ${PROJECT_BINARY_DIR}/ispc/include
   )
 m4generate(src/cuda_kernel.cuh.m4)
+add_custom_target(kernel DEPENDS ${M4DIR}/cuda_kernel.cuh)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
 target_link_libraries(cudaLib ispc)
+add_dependencies(cudaLib kernel)
 mark_as_advanced(CUDA_rt_LIBRARY CUDA_USE_STATIC_CUDA_RUNTIME
         CUDA_TOOLKIT_ROOT_DIR CUDA_SDK_ROOT_DIR CMAKE_INSTALL_PREFIX)
 
