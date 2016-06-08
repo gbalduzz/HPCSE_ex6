@@ -23,7 +23,7 @@ cuda_include_directories(
   ${M4DIR} 
   ${PROJECT_BINARY_DIR}/ispc/include
   )
-m4generate(src/cuda_kernels.cuh.m4)
+m4generate(src/cuda_kernel.cuh.m4)
 CUDA_COMPILE(CUDA_OBJ src/cuda_potential.cu)
 CUDA_ADD_LIBRARY(cudaLib STATIC ${CUDA_OBJ})
 target_link_libraries(cudaLib ispc)
